@@ -3,14 +3,16 @@
 
 int main(int argc, char** argv) {
     
-    //Vamos implementar uma Arvore AVL, ela deverá conter:
+    //AVL é uma arvore de busca binaria com balanceamento
+    //Devemos criar uma arvore binaria de busca para fazer a Avl
+    //Para implementar uma Arvore AVL, ela deverá conter:
 
     //operacoes busca
     //operacoes insercao
     //operacoes remove
     //operacoes rotacao(isso é o que difere da binária)
     
-    //neste local vamos apenas chamar as funções e passar os parametros
+    //neste local vamos colocar um menu para escolher as operações da arvore
 
     return (EXIT_SUCCESS);
 }
