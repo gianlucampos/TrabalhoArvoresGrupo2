@@ -1,5 +1,5 @@
 //Aqui devemos definir as funçoes da arvore
-typedef struct No* ArvBin;// aqui vamos passar a estrutura do no para uma variavel arvore
+typedef struct NO* ArvBin;// aqui vamos passar a estrutura do no para uma variavel arvore
 
 //Operações AVL
 ArvBin* cria_ArvBin();
