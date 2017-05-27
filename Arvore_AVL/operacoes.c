@@ -8,3 +8,4 @@ struct No {//criando a estrutura do no da arvore que vai ter o valor, e os ponte
     struct NO *esq;
     struct NO *dir;
 };
+//Teste para ver o funcionamento
