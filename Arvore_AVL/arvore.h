@@ -1,15 +1,20 @@
 //Aqui devemos definir as funçoes da arvore
-typedef struct NO* ArvBin;// aqui vamos passar a estrutura do no para uma variavel arvore
+typedef struct NO* ArvBin; // aqui vamos passar a estrutura do no para uma variavel arvore
 
-//Operações AVL
+//----------Operações básicas------------
 ArvBin* cria_ArvBin();
-ArvBin libera_ArvBin(ArvBin *raiz); //Removerá
 void libera_NO(struct NO* no);
-
-int Busca_No();
-
+ArvBin libera_ArvBin(ArvBin *raiz);
+//----------Informações da arvore--------
+int estaVazia(ArvBin *raiz);
+int altura(ArvBin *raiz);
+int totalNO(ArvBin *raiz);
+//----------Ordem de busca----------------
+void preOrdem_ArvBin(ArvBin *raiz);
+void EmOrdem_ArvBin(ArvBin *raiz);
+void posOrdem_ArvBin(ArvBin *raiz);
+//----------Operações AVL----------------(IMPLEMENTAR POR ULTIMO)
+int Consulta_No();
 void Insere_No();
-
 void Remove_No();
-
 void Rotaciona_No();
