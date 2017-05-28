@@ -34,9 +34,7 @@ include Makefile
 OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
-OBJECTFILES= \
-	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/operacoes.o
+OBJECTFILES=
 
 
 # C Compiler Flags
@@ -63,15 +61,15 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/arvore_avl.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/arvore_avl ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/main.o: main.c
+${OBJECTDIR}/main.c.gch: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.c
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o "$@" main.c
 
-${OBJECTDIR}/operacoes.o: operacoes.c
+${OBJECTDIR}/operacoes.c.gch: operacoes.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/operacoes.o operacoes.c
+	$(COMPILE.c) -g -std=c11 -MMD -MP -MF "$@.d" -o "$@" operacoes.c
 
 # Subprojects
 .build-subprojects:
