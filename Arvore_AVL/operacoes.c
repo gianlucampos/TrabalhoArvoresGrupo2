@@ -48,7 +48,7 @@ int estaVazia(ArvBin *raiz) {//verifica se a arvore possui algum elemento
 
 }
 
-int altura(ArvBin *raiz) {
+int altura(ArvBin *raiz) {// retorna a raiz da arvore
     if (raiz == NULL) {
         return 0;
     }
