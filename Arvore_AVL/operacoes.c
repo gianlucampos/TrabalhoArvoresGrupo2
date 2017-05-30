@@ -4,7 +4,8 @@
 #include "arvore.h"
 
 struct NO { //criando a estrutura do no da arvore que vai ter o valor, e os ponteiros da esq ou dir
-    int valor;
+    int informacao;
+    int alt;
     struct NO *esq;
     struct NO *dir;
 };
@@ -78,6 +79,51 @@ int totalNO(ArvBin *raiz) {//retorna o numero de nos que a arvore possui
 
 }
 
+int altura NO(struct NO* no) {
+    if (no == NULL) {
+        return -1;
+    } else {
+        return no->alt;
+    }
+}
+
+int insere_ArvBin(ArvBin* raiz, int valor) {
+    if (raiz == NULL) {
+        return 0;
+    }
+    struct NO* novo;
+    novo = (struct NO*) malloc(sizeof (struct NO));
+    if (novo == NULL) {
+        return 0;
+    }
+    novo->informacao = valor;
+    novo->dir = NULL;
+    novo->esq = NULL;
+    if (*raiz == NULL) {
+        *raiz = novo;
+    } else {
+        struct NO* atual = *raiz;
+        struct NO* ant = NULL;
+        while (atual != NULL) {
+            ant = atual;
+            if (valor == atual->informacao) {
+                free(novo);
+                return 0;
+            }
+            if (valor > atual->informacao) {
+                atual = atual->dir;
+            } else {
+                atual = atual->esq;
+            }
+            if (valor > ant->informacao) {
+                ant->dir = novo;
+            } else {
+                ant->esq = novo;
+            }
+            return 1;
+        }
+    }
+}
 //-----------------------------------------------------------------------------
 
 void preOrdem_ArvBin(ArvBin *raiz) {//Ordem: raiz esq dir
@@ -85,7 +131,7 @@ void preOrdem_ArvBin(ArvBin *raiz) {//Ordem: raiz esq dir
         return;
     }
     if (*raiz != NULL) {//se a raiz tiver filho(s)....
-        printf("%d\n", (*raiz)->valor); //imprima valor do no filho da raiz
+        printf("%d\n", (*raiz)->informacao); //imprima valor do no filho da raiz
         preOrdem_ArvBin(&((*raiz)->esq));
         preOrdem_ArvBin(&((*raiz)->dir));
     }
@@ -97,7 +143,7 @@ void EmOrdem_ArvBin(ArvBin *raiz) {//Ordem: esq raiz dir
     }
     if (*raiz != NULL) {//se a raiz tiver filho(s)....
         preOrdem_ArvBin(&((*raiz)->esq));
-        printf("%d\n", ((*raiz)->valor)); //imprima valor do no filho da raiz
+        printf("%d\n", ((*raiz)->informacao)); //imprima valor do no filho da raiz
         preOrdem_ArvBin(&((*raiz)->dir));
     }
 }
@@ -109,6 +155,6 @@ void posOrdem_ArvBin(ArvBin *raiz) {//Ordem: esq dir raiz
     if (*raiz != NULL) {//se a raiz tiver filho(s)....
         preOrdem_ArvBin(&((*raiz)->esq));
         preOrdem_ArvBin(&((*raiz)->dir));
-        printf("%d\n", (*raiz)->valor); //imprima valor do no filho da raiz
+        printf("%d\n", (*raiz)->informacao); //imprima valor do no filho da raiz
     }
 }
