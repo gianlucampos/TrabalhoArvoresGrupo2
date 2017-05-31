@@ -11,9 +11,69 @@ struct NO { //criando a estrutura do no da arvore que vai ter o valor, e os pont
 };
 
 //---------------------------------------------------------------------------
+// Calcula altura do nó
 
-ArvBin* cria_ArvBin() {
-    ArvBin* raiz = (ArvBin*) malloc(sizeof (ArvBin)); // alocando um espaco de memoria para o ponteiro da raiz
+int alt_NO(struct NO* no) {
+    if (no == NULL) {
+        return -1;
+    } else {
+        return no->alt;
+    }
+}
+
+//Calcula o fator de balanceamento do nó
+
+int fatorBalanceamento_NO(struct NO* no) {
+    return labs(alt_NO(no->esq) - alt_NO(no->dir));
+}
+
+int maior(int x, int y) {
+    if (x > y) {
+        return x;
+    } else {
+        return y;
+    }
+}
+
+// Rotações simples RR e LL atualizam nova altura das sub arvores
+
+void rotacaoLL(ArvAVL *raiz) {
+    struct NO *no;
+    no = (*raiz)->esq;
+    (*raiz)->esq = no->dir;
+    no->dir = *raiz;
+    (*raiz)->alt = maior(alt_NO((*raiz)->esq),
+            alt_NO((*raiz)->dir)) + 1;
+    no->alt = maior(alt_NO(no->esq),
+            (*raiz)->alt) + 1;
+    *raiz = no;
+}
+
+void rotacaoRR(ArvAVL *raiz) {
+    struct NO *no;
+    no = (*raiz)->dir;
+    (*raiz)->dir = no->esq;
+    no->esq = (*raiz);
+    (*raiz)->alt = maior(alt_NO((*raiz)->esq),
+            alt_NO((*raiz)->dir)) + 1;
+    no->alt = maior(alt_NO(no->dir), (*raiz)->alt) + 1;
+    (*raiz) = no;
+}
+
+// Rotaçoes duplas LR e RL sao implementadas com 2 rot. simples
+
+void rotacaoLR(ArvAVL *raiz) {
+    rotacaoRR(&(*raiz)->esq);
+    rotacaoLL(raiz);
+}
+
+void rotacaoRL(ArvAVL *raiz){
+    rotacaoLL(&(*raiz)->dir);
+    rotacaoRR(raiz);
+}
+
+ArvAVL* cria_ArvBin() {
+    ArvAVL* raiz = (ArvAVL*) malloc(sizeof (ArvAVL)); // alocando um espaco de memoria para o ponteiro da raiz
     if (raiz != NULL) { //caso o malloc funcione o ponteiro da raiz recebe nulo
         *raiz = NULL;
     }
@@ -28,7 +88,7 @@ void libera_NO(struct NO* no) {
     no = NULL;
 }
 
-ArvBin libera_ArvBin(ArvBin *raiz) {
+ArvAVL libera_ArvBin(ArvAVL *raiz) {
     if (raiz == NULL) {
         return;
     }
@@ -38,7 +98,7 @@ ArvBin libera_ArvBin(ArvBin *raiz) {
 
 //----------------------------------------------------------------------------
 
-int estaVazia(ArvBin *raiz) {//verifica se a arvore possui algum elemento
+int estaVazia(ArvAVL *raiz) {//verifica se a arvore possui algum elemento
     if (raiz == NULL) {
         return 1;
     }
@@ -49,7 +109,7 @@ int estaVazia(ArvBin *raiz) {//verifica se a arvore possui algum elemento
 
 }
 
-int altura(ArvBin *raiz) {// retorna a raiz da arvore
+int altura(ArvAVL *raiz) {// retorna a raiz da arvore
     if (raiz == NULL) {
         return 0;
     }
@@ -66,7 +126,7 @@ int altura(ArvBin *raiz) {// retorna a raiz da arvore
 
 }
 
-int totalNO(ArvBin *raiz) {//retorna o numero de nos que a arvore possui
+int totalNO(ArvAVL *raiz) {//retorna o numero de nos que a arvore possui
     if (raiz == NULL) {
         return 0;
     }
@@ -87,7 +147,7 @@ int altura NO(struct NO* no) {
     }
 }
 
-int insere_ArvBin(ArvBin* raiz, int valor) {
+int insere_ArvBin(ArvAVL* raiz, int valor) {
     if (raiz == NULL) {
         return 0;
     }
@@ -126,7 +186,7 @@ int insere_ArvBin(ArvBin* raiz, int valor) {
 }
 //-----------------------------------------------------------------------------
 
-void preOrdem_ArvBin(ArvBin *raiz) {//Ordem: raiz esq dir
+void preOrdem_ArvBin(ArvAVL *raiz) {//Ordem: raiz esq dir
     if (raiz == NULL) {// nao tem nenhum elemento na arvore, logo ela esta vazia
         return;
     }
@@ -137,7 +197,7 @@ void preOrdem_ArvBin(ArvBin *raiz) {//Ordem: raiz esq dir
     }
 }
 
-void EmOrdem_ArvBin(ArvBin *raiz) {//Ordem: esq raiz dir
+void EmOrdem_ArvBin(ArvAVL *raiz) {//Ordem: esq raiz dir
     if (raiz == NULL) {// nao tem nenhum elemento na arvore, logo ela esta vazia
         return;
     }
@@ -148,7 +208,7 @@ void EmOrdem_ArvBin(ArvBin *raiz) {//Ordem: esq raiz dir
     }
 }
 
-void posOrdem_ArvBin(ArvBin *raiz) {//Ordem: esq dir raiz
+void posOrdem_ArvBin(ArvAVL *raiz) {//Ordem: esq dir raiz
     if (raiz == NULL) {// nao tem nenhum elemento na arvore, logo ela esta vazia
         return;
     }
