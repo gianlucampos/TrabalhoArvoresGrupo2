@@ -124,42 +124,73 @@ void posOrdem_ArvBin(ArvAVL *raiz) {//Ordem: esq dir raiz
 
 //-----------------------------------------------------------------------------
 
-int insere_ArvBin(ArvAVL *raiz, int valor) {
-    if (raiz == NULL) {// verifica se existe alguma raiz na arvore
+int consulta_ArvBin(ArvAVL *raiz, int valor) {
+    if (raiz == NULL) {
         return 0;
     }
-    struct NO *novo; //passa toda as variaveis de um no para o ponteiro novo
-    novo = (struct NO*) malloc(sizeof (struct NO)); // alocar memoria para um novo no
-    if (novo == NULL) {//verifica se a alocaçao foi bem sucessedida
-        return 0;
+    struct NO *atual = raiz;
+    while (atual != NULL) {//enquanto possuir algo na raiz faça...
+        if (valor == atual->informacao) {//comparar se o valor passado por parametro esta presente em algum nó
+            printf("O valor existe na arvore");
+            return 1;
+        }
+        if (valor > atual->informacao) {
+            atual = atual->dir;//procura na direita
+        } else {
+            atual = atual->esq;//procura na esquerda
+        }
+        return 0;//esse valor não existe na árvore binária
     }
-    novo->informacao = valor; //inserindo o valor no nó
-    novo->dir = NULL; //passando nulo pois o nó será uma folha inicialmente
-    novo->esq = NULL;
+}
+//-----------------------------------------------------------------------------
 
-    //ONDE INSERIR ?
-
-    if (*raiz == NULL) {//se for uma arvore vazia
-        *raiz = novo; //cria-se um no
-    } else {
-        struct NO* atual = *raiz; // vai receber o ponteiro da raiz
-        struct NO* ant = NULL; //como o atual vai ser a raiz nao temos outro elemento na arvore
-        while (atual != NULL) {//continua percorrendo a arvore ate nao possuir mais filhos
-            ant = atual;
-            if (valor == atual->informacao) {//se o valor que quisermos inserir ja possui na arvore
-                free(novo); //desalocamos o no novo 
-                printf("O elemento atual já existe na arvore");
-                return 0;
-            }//caso não exista inserimos um filho no nó
-            if (valor == atual->informacao) {//Comparar para inserir o maior elemento a direita sempre
-                atual = atual->dir;
+int insere_ArvAVL(ArvAVL *raiz, int valor) {
+    int res;
+    if (*raiz == NULL) {//arvore esta vazia(sem elemento nenhum) ou no folha(no nao possui filhos)
+        struct NO *novo; //passa toda as variaveis de um no para o ponteiro novo
+        novo = (struct NO*) malloc(sizeof (struct NO)); // alocar memoria para um novo no
+        if (novo == NULL) {//verifica se a alocaçao foi bem sucedida
+            return 0;
+        }
+        novo->informacao = valor; //inserindo o valor no nó
+        novo->alt = 0;
+        novo->dir = NULL; //passando nulo pois o nó será uma folha inicialmente
+        novo->esq = NULL;
+        *raiz = novo; // recebendo parametros do no novo
+        return 1;
+        struct NO *atual = *raiz;
+        if (valor < atual->informacao) {//inserir a esquerda caso verdade pois valores menores sao colocados a direita
+            if ((res = insere_ArvAVL(&(atual->esq), valor)) == 1) {//se a funcao retornar 1 deu certo
+                if (fatorBalanceamento_NO(atual) >= 2) {//se estiver desbalanceada
+                    if (valor < (*raiz)->esq->informacao) {
+                        rotacaoLL(raiz);
+                    } else {
+                        rotacaoLR(raiz);
+                    }
+                }
+            }
+        } else {
+            if (valor > atual->informacao) {//inserir a direita
+                if ((res = insere_ArvAVL(&(atual->dir), valor)) == 1) {//se a funcao retornar 1 deu certo
+                    if (fatorBalanceamento_NO(atual) >= 2) {//se estiver desbalanceada
+                        if (valor < (*raiz)->dir->informacao) {
+                            rotacaoRR(raiz);
+                        } else {
+                            rotacaoRL(raiz);
+                        }
+                    }
+                }
             } else {
-                atual = atual->esq;
+                printf("Valor duplicado!!"); //nao permite valores iguais na arvore
+                return 0;
             }
         }
+        atual->alt = maior(altura_NO(atual->esq), altura_NO(atual->dir)) + 1;
+        return res;
     }
-    return 1;
 }
+//-----------------------------------------------------------------------------
+void Remove_ArvBin(); //FALTA FAZER AQUI FAZ BINARIA 1º E DEPOIS MUDA PRA AVL
 //-----------------------------------------------------------------------------
 
 int fatorBalanceamento_NO(struct NO* no) {

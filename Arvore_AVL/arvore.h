@@ -1,5 +1,5 @@
 //Aqui devemos definir as funçoes da arvore
-typedef struct NO* ArvAVL;// Passa estrutura do no para uma variavel arvore
+typedef struct NO* ArvAVL; // Passa estrutura do no para uma variavel arvore
 
 //----------Operações básicas------------
 ArvAVL* cria_ArvBin();
@@ -8,20 +8,22 @@ ArvAVL libera_ArvBin(ArvAVL *raiz);
 //----------Informações da arvore--------
 int estaVazia(ArvAVL *raiz);
 int altura_Arv(ArvAVL *raiz);
-int alt_NO(struct NO* no);
+int altura_NO(struct NO* no);
 int totalNO(ArvAVL *raiz);
 //----------Ordem de busca----------------
 void preOrdem_ArvBin(ArvAVL *raiz);
 void EmOrdem_ArvBin(ArvAVL *raiz);
 void posOrdem_ArvBin(ArvAVL *raiz);
-//---------Insercao-------------
-int insere_ArvBin(ArvAVL* raiz, int valor);
-//---------Remocao-----------------------
-void Remove_ArvBin();
+//----------Remocao-----------------------
+void Remove_ArvBin();//Falta fazer em binario 
 //---------Consulta----------------------
-int Consulta_ArvBin();
+int consulta_ArvBin(ArvAVL *raiz, int valor);
 //----------Operações AVL----------------
-
+//No avl só vai mudar a inserção e remoção
+//----------Insercao---------------------
+int insere_ArvAVL(ArvAVL *raiz, int valor);
+//----------Remoção----------------------
+//Depois de fazer em binario mudar para AVL
 //---------Balanceamento-----------------
 int fatorBalanceamento_NO(struct NO* no);
 int maior(int x, int y);
