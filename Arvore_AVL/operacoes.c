@@ -128,18 +128,18 @@ int consulta_ArvBin(ArvAVL *raiz, int valor) {
     if (raiz == NULL) {
         return 0;
     }
-    struct NO *atual = raiz;
+    struct NO *atual = *raiz;
     while (atual != NULL) {//enquanto possuir algo na raiz faça...
         if (valor == atual->informacao) {//comparar se o valor passado por parametro esta presente em algum nó
-            printf("O valor existe na arvore");
             return 1;
+            printf("\nO valor já existe na árvore\n");
         }
         if (valor > atual->informacao) {
-            atual = atual->dir;//procura na direita
+            atual = atual->dir; //procura na direita
         } else {
-            atual = atual->esq;//procura na esquerda
+            atual = atual->esq; //procura na esquerda
         }
-        return 0;//esse valor não existe na árvore binária
+        return 0; //esse valor não existe na árvore binária
     }
 }
 //-----------------------------------------------------------------------------
@@ -158,36 +158,36 @@ int insere_ArvAVL(ArvAVL *raiz, int valor) {
         novo->esq = NULL;
         *raiz = novo; // recebendo parametros do no novo
         return 1;
-        struct NO *atual = *raiz;
-        if (valor < atual->informacao) {//inserir a esquerda caso verdade pois valores menores sao colocados a direita
-            if ((res = insere_ArvAVL(&(atual->esq), valor)) == 1) {//se a funcao retornar 1 deu certo
+    }
+    struct NO *atual = *raiz;
+    if (valor < atual->informacao) {//inserir a esquerda caso verdade pois valores menores sao colocados a direita
+        if ((res = insere_ArvAVL(&(atual->esq), valor)) == 1) {//se a funcao retornar 1 deu certo
+            if (fatorBalanceamento_NO(atual) >= 2) {//se estiver desbalanceada
+                if (valor < (*raiz)->esq->informacao) {
+                    rotacaoLL(raiz);
+                } else {
+                    rotacaoLR(raiz);
+                }
+            }
+        }
+    } else {
+        if (valor > atual->informacao) {//inserir a direita
+            if ((res = insere_ArvAVL(&(atual->dir), valor)) == 1) {//se a funcao retornar 1 deu certo
                 if (fatorBalanceamento_NO(atual) >= 2) {//se estiver desbalanceada
-                    if (valor < (*raiz)->esq->informacao) {
-                        rotacaoLL(raiz);
+                    if (valor < (*raiz)->dir->informacao) {
+                        rotacaoRR(raiz);
                     } else {
-                        rotacaoLR(raiz);
+                        rotacaoRL(raiz);
                     }
                 }
             }
         } else {
-            if (valor > atual->informacao) {//inserir a direita
-                if ((res = insere_ArvAVL(&(atual->dir), valor)) == 1) {//se a funcao retornar 1 deu certo
-                    if (fatorBalanceamento_NO(atual) >= 2) {//se estiver desbalanceada
-                        if (valor < (*raiz)->dir->informacao) {
-                            rotacaoRR(raiz);
-                        } else {
-                            rotacaoRL(raiz);
-                        }
-                    }
-                }
-            } else {
-                printf("Valor duplicado!!"); //nao permite valores iguais na arvore
-                return 0;
-            }
+            printf("Valor duplicado!!"); //nao permite valores iguais na arvore
+            return 0;
         }
-        atual->alt = maior(altura_NO(atual->esq), altura_NO(atual->dir)) + 1;
-        return res;
     }
+    atual->alt = maior(alt_NO(atual->esq), alt_NO(atual->dir)) + 1;
+    return res;
 }
 //-----------------------------------------------------------------------------
 void Remove_ArvBin(); //FALTA FAZER AQUI FAZ BINARIA 1º E DEPOIS MUDA PRA AVL

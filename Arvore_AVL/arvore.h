@@ -8,7 +8,7 @@ ArvAVL libera_ArvBin(ArvAVL *raiz);
 //----------Informações da arvore--------
 int estaVazia(ArvAVL *raiz);
 int altura_Arv(ArvAVL *raiz);
-int altura_NO(struct NO* no);
+int alt_NO(struct NO* no);
 int totalNO(ArvAVL *raiz);
 //----------Ordem de busca----------------
 void preOrdem_ArvBin(ArvAVL *raiz);
