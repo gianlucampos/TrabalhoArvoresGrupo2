@@ -14,8 +14,6 @@ int totalNO(ArvAVL *raiz);
 void preOrdem_ArvBin(ArvAVL *raiz);
 void EmOrdem_ArvBin(ArvAVL *raiz);
 void posOrdem_ArvBin(ArvAVL *raiz);
-//----------Remocao-----------------------
-void Remove_ArvBin();//Falta fazer em binario 
 //---------Consulta----------------------
 int consulta_ArvBin(ArvAVL *raiz, int valor);
 //----------Operações AVL----------------
@@ -23,7 +21,8 @@ int consulta_ArvBin(ArvAVL *raiz, int valor);
 //----------Insercao---------------------
 int insere_ArvAVL(ArvAVL *raiz, int valor);
 //----------Remoção----------------------
-//Depois de fazer em binario mudar para AVL
+struct NO* procuraMenor(struct NO* atual);
+int remove_ArvAVL(ArvAVL *raiz, int valor);
 //---------Balanceamento-----------------
 int fatorBalanceamento_NO(struct NO* no);
 int maior(int x, int y);

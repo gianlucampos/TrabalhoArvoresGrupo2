@@ -139,8 +139,8 @@ int consulta_ArvBin(ArvAVL *raiz, int valor) {
         } else {
             atual = atual->esq; //procura na esquerda
         }
-        return 0; //esse valor não existe na árvore binária
     }
+    return 0; //esse valor não existe na árvore binária    
 }
 //-----------------------------------------------------------------------------
 
@@ -189,13 +189,66 @@ int insere_ArvAVL(ArvAVL *raiz, int valor) {
     atual->alt = maior(alt_NO(atual->esq), alt_NO(atual->dir)) + 1;
     return res;
 }
-//-----------------------------------------------------------------------------
-void Remove_ArvBin(); //FALTA FAZER AQUI FAZ BINARIA 1º E DEPOIS MUDA PRA AVL
-//-----------------------------------------------------------------------------
 
-int fatorBalanceamento_NO(struct NO* no) {
+struct NO* procuraMenor(struct NO* atual) {
+    struct NO *no1 = atual;
+    struct NO *no2 = atual->esq;
+    while (no2 != NULL) {
+        no1 = no2;
+        no2 = no2->esq;
+
+    }
+    return no1;
+}
+
+int remove_ArvAVL(ArvAVL *raiz, int valor) {
+    if (*raiz == NULL) {
+        printf("valor não existe!!\n");
+        return 0;
+    }
+    int res;
+    if (valor < (*raiz)->informacao) {
+        if ((res = remove ArvAVL(&(*raiz)->esq, valor)) == 1)
+            if (fatorBalanceamento_NO(*raiz) >= 2) {
+                if (alt_NO((*raiz)->dir->esq) <= alt_NO((*raiz->dir->dir))) {
+                    rotacaoRR(raiz);
+                } else {
+                    rotacaoRL(raiz);
+                }
+            }
+    }
+    if ((*raiz)->informacao == valor) {
+        if (((*raiz)->esq == NULL || (*raiz)->dir == NULL)) {
+            struct NO *oldNode = (*raiz);
+            if ((*raiz)->esq != NULL) {
+                *raiz = (*raiz)->esq;
+            } else {
+                *raiz = (*raiz)->dir;
+
+            }
+            free(oldNode);
+        } else {
+            struct NO* temp = procuraMenor((*raiz)->dir);
+            (*raiz)->informacao = temp->informacao;
+            remove_ArvAVL(&(*raiz)->dir, (*raiz)->informacao);
+            if (fatorBalanceamento_NO(*raiz) >= 2) {
+                if (alt_NO((*raiz)->esq->dir) <= alt_NO((*raiz)->esq->esq)) {
+                    rotacaoLL(raiz);
+                } else {
+                    rotacaoLR(raiz);
+                }
+
+            }
+            return 1;
+        }
+        return res;
+    }
+
+}
+
+int fatorBalanceamento_NO(struct NO* no) { //Calcula o fator de balanceamento do nó
     return labs(alt_NO(no->esq) - alt_NO(no->dir));
-}//Calcula o fator de balanceamento do nó
+}
 
 int maior(int x, int y) {
     if (x > y) {
@@ -217,7 +270,8 @@ void rotacaoLL(ArvAVL *raiz) {
     no->alt = maior(alt_NO(no->esq),
             (*raiz)->alt) + 1;
     *raiz = no;
-}// Rotações simples RR e LL atualizam nova altura das sub arvores
+}
+// Rotações simples RR e LL atualizam nova altura das sub arvores
 
 void rotacaoRR(ArvAVL *raiz) {
     struct NO *no;
