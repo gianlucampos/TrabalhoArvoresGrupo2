@@ -3,11 +3,11 @@ typedef struct NO* ArvAVL; // Passa estrutura do no para uma variavel arvore
 
 //----------Operações básicas------------
 ArvAVL* cria_ArvBin();
-void libera_NO(struct NO* no);
+void libera_NO(struct NO* no);//
 ArvAVL libera_ArvBin(ArvAVL *raiz);
 //----------Informações da arvore--------
 int estaVazia(ArvAVL *raiz);
-int altura_Arv(ArvAVL *raiz);
+int altura_Arv(ArvAVL *raiz);//
 int alt_NO(struct NO* no);
 int totalNO(ArvAVL *raiz);
 //----------Ordem de busca----------------
@@ -22,7 +22,7 @@ int consulta_ArvBin(ArvAVL *raiz, int valor);
 int insere_ArvAVL(ArvAVL *raiz, int valor);
 //----------Remoção----------------------
 struct NO* procuraMenor(struct NO* atual);
-int remove_ArvAVL(ArvAVL *raiz, int valor);
+int remove_ArvAVL(ArvAVL *raiz, int valor);//
 //---------Balanceamento-----------------
 int fatorBalanceamento_NO(struct NO* no);
 int maior(int x, int y);

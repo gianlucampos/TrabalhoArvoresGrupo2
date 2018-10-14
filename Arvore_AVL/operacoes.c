@@ -30,7 +30,7 @@ void libera_NO(struct NO* no) {
 
 ArvAVL libera_ArvBin(ArvAVL *raiz) {
     if (raiz == NULL) {
-        return;
+        return 0;
     }
     libera_NO(*raiz); //libera os nos
     free(raiz); //libera raiz
@@ -66,7 +66,7 @@ int altura_Arv(ArvAVL *raiz) {// retorna a altura da arvore
 
 }
 
-int alt_NO(struct NO* no) {// Calcula altura do nó
+int alt_NO(struct NO * no) {// Calcula altura do nó
     if (no == NULL) {
         return -1;
     } else {
@@ -74,7 +74,7 @@ int alt_NO(struct NO* no) {// Calcula altura do nó
     }
 }
 
-int totalNO(ArvAVL *raiz) {//retorna o numero de nos que a arvore possui
+int totalNO(ArvAVL * raiz) {//retorna o numero de nos que a arvore possui
     if (raiz == NULL) {
         return 0;
     }
@@ -89,7 +89,7 @@ int totalNO(ArvAVL *raiz) {//retorna o numero de nos que a arvore possui
 
 //-----------------------------------------------------------------------------
 
-void preOrdem_ArvBin(ArvAVL *raiz) {//Ordem: raiz esq dir
+void preOrdem_ArvBin(ArvAVL * raiz) {//Ordem: raiz esq dir
     if (raiz == NULL) {// nao tem nenhum elemento na arvore, logo ela esta vazia
         return;
     }
@@ -100,7 +100,7 @@ void preOrdem_ArvBin(ArvAVL *raiz) {//Ordem: raiz esq dir
     }
 }
 
-void EmOrdem_ArvBin(ArvAVL *raiz) {//Ordem: esq raiz dir
+void EmOrdem_ArvBin(ArvAVL * raiz) {//Ordem: esq raiz dir
     if (raiz == NULL) {// nao tem nenhum elemento na arvore, logo ela esta vazia
         return;
     }
@@ -111,7 +111,7 @@ void EmOrdem_ArvBin(ArvAVL *raiz) {//Ordem: esq raiz dir
     }
 }
 
-void posOrdem_ArvBin(ArvAVL *raiz) {//Ordem: esq dir raiz
+void posOrdem_ArvBin(ArvAVL * raiz) {//Ordem: esq dir raiz
     if (raiz == NULL) {// nao tem nenhum elemento na arvore, logo ela esta vazia
         return;
     }
@@ -190,7 +190,7 @@ int insere_ArvAVL(ArvAVL *raiz, int valor) {
     return res;
 }
 
-struct NO* procuraMenor(struct NO* atual) {
+struct NO * procuraMenor(struct NO * atual) {
     struct NO *no1 = atual;
     struct NO *no2 = atual->esq;
     while (no2 != NULL) {
@@ -208,14 +208,15 @@ int remove_ArvAVL(ArvAVL *raiz, int valor) {
     }
     int res;
     if (valor < (*raiz)->informacao) {
-        if ((res = remove ArvAVL(&(*raiz)->esq, valor)) == 1)
+        if ((res = remove_ArvAVL(&(*raiz)->esq, valor)) == 1) {
             if (fatorBalanceamento_NO(*raiz) >= 2) {
-                if (alt_NO((*raiz)->dir->esq) <= alt_NO((*raiz->dir->dir))) {
+                if (alt_NO((*raiz)->dir->esq) <= alt_NO((*raiz)->dir->dir))
                     rotacaoRR(raiz);
-                } else {
+                else
                     rotacaoRL(raiz);
-                }
             }
+        }
+
     }
     if ((*raiz)->informacao == valor) {
         if (((*raiz)->esq == NULL || (*raiz)->dir == NULL)) {
@@ -246,7 +247,7 @@ int remove_ArvAVL(ArvAVL *raiz, int valor) {
 
 }
 
-int fatorBalanceamento_NO(struct NO* no) { //Calcula o fator de balanceamento do nó
+int fatorBalanceamento_NO(struct NO * no) { //Calcula o fator de balanceamento do nó
     return labs(alt_NO(no->esq) - alt_NO(no->dir));
 }
 
@@ -259,7 +260,7 @@ int maior(int x, int y) {
 }
 //-----------------------------------------------------------------------------
 
-void rotacaoLL(ArvAVL *raiz) {
+void rotacaoLL(ArvAVL * raiz) {
 
     struct NO *no;
     no = (*raiz)->esq;
@@ -273,7 +274,7 @@ void rotacaoLL(ArvAVL *raiz) {
 }
 // Rotações simples RR e LL atualizam nova altura das sub arvores
 
-void rotacaoRR(ArvAVL *raiz) {
+void rotacaoRR(ArvAVL * raiz) {
     struct NO *no;
     no = (*raiz)->dir;
     (*raiz)->dir = no->esq;
@@ -284,12 +285,12 @@ void rotacaoRR(ArvAVL *raiz) {
     (*raiz) = no;
 }
 
-void rotacaoLR(ArvAVL *raiz) {
+void rotacaoLR(ArvAVL * raiz) {
     rotacaoRR(&(*raiz)->esq);
     rotacaoLL(raiz);
 }// Rotaçoes duplas LR e RL sao implementadas com 2 rot. simples
 
-void rotacaoRL(ArvAVL *raiz) {
+void rotacaoRL(ArvAVL * raiz) {
     rotacaoLL(&(*raiz)->dir);
     rotacaoRR(raiz);
 }

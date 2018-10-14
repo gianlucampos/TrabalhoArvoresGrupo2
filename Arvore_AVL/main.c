@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "arvore.h"
 
-int main(int argc, char** argv) {
+int main() {
 
     ArvAVL *raiz;
     raiz = cria_ArvBin();
@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
                 scanf("%d", &valor);
                 printf("------------------------");
                 int remove; //se deu certo retorna 1 
-                //remove = remove_da_ArvBin(raiz, valor);
+                remove = remove_ArvAVL(raiz, valor);
                 if (remove == 1) {
                     printf("------------------------");
                     printf("\nO valor foi removido com êxito!!");
